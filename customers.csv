@@ -1,0 +1,501 @@
+Customer_ID,Country,Acquisition_Channel,Signup_Date
+CUST-1000,France,Organic Search,2024-08-13
+CUST-1001,USA,Organic Search,2026-12-18
+CUST-1002,USA,Direct,2024-08-02
+CUST-1003,France,Referral,2026-12-10
+CUST-1004,Canada,Organic Search,2025-07-18
+CUST-1005,UK,Organic Search,2023-05-26
+CUST-1006,UK,Referral,2026-11-08
+CUST-1007,UK,Paid Social,2024-04-23
+CUST-1008,France,Referral,2024-06-25
+CUST-1009,USA,Paid Social,2026-07-04
+CUST-1010,France,Direct,2026-04-22
+CUST-1011,France,Email,2026-09-16
+CUST-1012,Germany,Direct,2024-02-10
+CUST-1013,USA,Email,2025-05-20
+CUST-1014,Germany,Organic Search,2023-08-24
+CUST-1015,Australia,Organic Search,2026-01-20
+CUST-1016,USA,Organic Search,2024-04-05
+CUST-1017,USA,Paid Social,2026-08-19
+CUST-1018,USA,Email,2023-11-02
+CUST-1019,UK,Organic Search,2024-06-28
+CUST-1020,UK,Referral,2023-10-19
+CUST-1021,Germany,Email,2023-05-27
+CUST-1022,Germany,Email,2023-05-03
+CUST-1023,USA,Paid Social,2023-12-06
+CUST-1024,Germany,Direct,2024-09-21
+CUST-1025,UK,Paid Social,2026-05-03
+CUST-1026,France,Organic Search,2026-03-11
+CUST-1027,France,Referral,2024-08-14
+CUST-1028,France,Referral,2025-06-18
+CUST-1029,Germany,Organic Search,2023-09-12
+CUST-1030,Australia,Referral,2025-08-17
+CUST-1031,UK,Paid Social,2026-11-11
+CUST-1032,Australia,Paid Social,2024-09-14
+CUST-1033,Germany,Organic Search,2026-12-04
+CUST-1034,Canada,Referral,2025-04-04
+CUST-1035,Japan,Email,2024-07-11
+CUST-1036,Japan,Direct,2025-10-21
+CUST-1037,USA,Email,2026-01-10
+CUST-1038,Japan,Paid Social,2025-10-08
+CUST-1039,Japan,Paid Social,2025-06-15
+CUST-1040,UK,Paid Social,2023-06-14
+CUST-1041,France,Paid Social,2026-05-09
+CUST-1042,Australia,Direct,2023-03-23
+CUST-1043,Canada,Organic Search,2025-06-03
+CUST-1044,Canada,Paid Social,2024-10-22
+CUST-1045,UK,Referral,2026-05-21
+CUST-1046,UK,Direct,2024-05-27
+CUST-1047,Japan,Paid Social,2023-02-22
+CUST-1048,Canada,Referral,2023-07-07
+CUST-1049,USA,Paid Social,2024-04-13
+CUST-1050,USA,Organic Search,2026-10-12
+CUST-1051,Australia,Direct,2026-03-24
+CUST-1052,USA,Organic Search,2026-04-17
+CUST-1053,Canada,Direct,2023-02-12
+CUST-1054,Japan,Paid Social,2026-10-08
+CUST-1055,Canada,Paid Social,2024-07-05
+CUST-1056,Germany,Direct,2026-03-26
+CUST-1057,Canada,Referral,2023-03-24
+CUST-1058,Japan,Referral,2023-12-25
+CUST-1059,USA,Paid Social,2025-08-21
+CUST-1060,France,Paid Social,2025-11-28
+CUST-1061,Australia,Organic Search,2026-08-27
+CUST-1062,Germany,Paid Social,2025-06-24
+CUST-1063,USA,Direct,2024-07-23
+CUST-1064,Australia,Referral,2024-01-07
+CUST-1065,USA,Referral,2026-04-13
+CUST-1066,Germany,Organic Search,2025-06-11
+CUST-1067,Canada,Referral,2026-07-24
+CUST-1068,Japan,Referral,2025-10-04
+CUST-1069,France,Email,2023-07-06
+CUST-1070,Germany,Direct,2025-08-20
+CUST-1071,Japan,Email,2024-12-13
+CUST-1072,Canada,Referral,2025-04-16
+CUST-1073,Germany,Organic Search,2024-11-13
+CUST-1074,UK,Organic Search,2024-10-19
+CUST-1075,France,Referral,2026-10-04
+CUST-1076,USA,Paid Social,2023-08-03
+CUST-1077,USA,Email,2023-11-26
+CUST-1078,France,Referral,2024-11-06
+CUST-1079,UK,Organic Search,2025-04-23
+CUST-1080,Japan,Organic Search,2026-11-21
+CUST-1081,Canada,Email,2025-10-11
+CUST-1082,USA,Direct,2024-08-13
+CUST-1083,Japan,Referral,2026-09-18
+CUST-1084,UK,Referral,2025-03-31
+CUST-1085,Japan,Direct,2026-01-31
+CUST-1086,USA,Email,2023-03-17
+CUST-1087,Australia,Email,2025-07-20
+CUST-1088,Canada,Organic Search,2023-06-30
+CUST-1089,Australia,Direct,2024-10-06
+CUST-1090,France,Email,2024-05-31
+CUST-1091,Japan,Paid Social,2024-10-24
+CUST-1092,Canada,Referral,2023-08-26
+CUST-1093,UK,Organic Search,2025-04-07
+CUST-1094,Canada,Direct,2025-11-19
+CUST-1095,Canada,Organic Search,2023-01-03
+CUST-1096,UK,Email,2026-09-08
+CUST-1097,France,Email,2026-01-16
+CUST-1098,Canada,Paid Social,2025-08-04
+CUST-1099,France,Referral,2025-04-26
+CUST-1100,France,Direct,2023-04-22
+CUST-1101,France,Organic Search,2024-01-20
+CUST-1102,USA,Referral,2025-11-27
+CUST-1103,Germany,Email,2025-01-10
+CUST-1104,France,Referral,2026-06-29
+CUST-1105,UK,Organic Search,2025-10-17
+CUST-1106,Germany,Referral,2026-07-04
+CUST-1107,France,Email,2025-06-24
+CUST-1108,UK,Referral,2023-04-16
+CUST-1109,UK,Direct,2024-02-21
+CUST-1110,Australia,Referral,2024-06-30
+CUST-1111,Australia,Direct,2026-01-29
+CUST-1112,Canada,Referral,2023-09-26
+CUST-1113,France,Email,2024-08-12
+CUST-1114,France,Paid Social,2025-06-16
+CUST-1115,Germany,Paid Social,2026-12-01
+CUST-1116,UK,Direct,2025-09-19
+CUST-1117,France,Direct,2023-09-06
+CUST-1118,Canada,Paid Social,2023-03-01
+CUST-1119,Japan,Email,2026-07-14
+CUST-1120,Japan,Email,2026-05-31
+CUST-1121,Japan,Referral,2024-05-05
+CUST-1122,USA,Direct,2026-12-24
+CUST-1123,UK,Email,2023-11-21
+CUST-1124,Japan,Organic Search,2024-09-28
+CUST-1125,USA,Referral,2026-02-02
+CUST-1126,Japan,Referral,2023-01-29
+CUST-1127,Canada,Paid Social,2026-02-05
+CUST-1128,Australia,Direct,2025-04-15
+CUST-1129,Canada,Email,2023-07-10
+CUST-1130,USA,Email,2024-04-05
+CUST-1131,UK,Referral,2023-08-21
+CUST-1132,Germany,Direct,2025-08-03
+CUST-1133,France,Direct,2023-08-29
+CUST-1134,Canada,Direct,2026-08-19
+CUST-1135,UK,Paid Social,2023-11-12
+CUST-1136,France,Email,2025-10-17
+CUST-1137,Australia,Direct,2024-08-20
+CUST-1138,Australia,Paid Social,2025-11-08
+CUST-1139,France,Organic Search,2026-12-15
+CUST-1140,Australia,Referral,2024-07-13
+CUST-1141,UK,Email,2025-04-30
+CUST-1142,Canada,Email,2025-09-15
+CUST-1143,UK,Referral,2025-08-25
+CUST-1144,UK,Organic Search,2024-05-14
+CUST-1145,France,Paid Social,2025-07-24
+CUST-1146,Germany,Referral,2026-02-02
+CUST-1147,Germany,Paid Social,2023-10-24
+CUST-1148,Canada,Paid Social,2025-02-24
+CUST-1149,France,Paid Social,2024-01-26
+CUST-1150,Germany,Organic Search,2026-05-12
+CUST-1151,Australia,Organic Search,2025-11-06
+CUST-1152,Germany,Paid Social,2023-10-07
+CUST-1153,Australia,Direct,2023-05-23
+CUST-1154,Canada,Email,2024-07-19
+CUST-1155,UK,Organic Search,2025-04-29
+CUST-1156,UK,Direct,2024-11-27
+CUST-1157,Germany,Direct,2025-11-05
+CUST-1158,Australia,Email,2024-07-01
+CUST-1159,USA,Paid Social,2023-01-06
+CUST-1160,Japan,Direct,2024-08-02
+CUST-1161,USA,Direct,2024-09-03
+CUST-1162,Japan,Direct,2026-04-17
+CUST-1163,USA,Paid Social,2026-04-02
+CUST-1164,UK,Paid Social,2026-09-13
+CUST-1165,France,Organic Search,2025-09-29
+CUST-1166,UK,Organic Search,2023-11-01
+CUST-1167,Japan,Direct,2025-07-03
+CUST-1168,France,Paid Social,2026-01-08
+CUST-1169,Australia,Paid Social,2025-09-18
+CUST-1170,Germany,Email,2024-12-07
+CUST-1171,USA,Direct,2024-11-11
+CUST-1172,Australia,Organic Search,2026-02-04
+CUST-1173,Australia,Email,2026-01-17
+CUST-1174,Germany,Paid Social,2025-02-11
+CUST-1175,Australia,Organic Search,2025-07-21
+CUST-1176,Germany,Direct,2024-10-21
+CUST-1177,Canada,Paid Social,2024-01-22
+CUST-1178,Germany,Direct,2026-11-29
+CUST-1179,Japan,Email,2024-05-04
+CUST-1180,USA,Email,2026-03-17
+CUST-1181,France,Email,2025-02-23
+CUST-1182,France,Referral,2024-04-23
+CUST-1183,USA,Direct,2025-04-21
+CUST-1184,France,Email,2023-03-31
+CUST-1185,Germany,Email,2024-10-13
+CUST-1186,Japan,Direct,2025-08-26
+CUST-1187,Canada,Email,2026-12-15
+CUST-1188,Japan,Direct,2025-02-19
+CUST-1189,France,Paid Social,2025-03-01
+CUST-1190,Canada,Direct,2026-09-21
+CUST-1191,USA,Direct,2026-08-28
+CUST-1192,Canada,Referral,2023-11-08
+CUST-1193,Australia,Paid Social,2025-10-11
+CUST-1194,UK,Referral,2023-03-17
+CUST-1195,Australia,Email,2023-09-16
+CUST-1196,USA,Direct,2025-10-25
+CUST-1197,France,Paid Social,2026-04-23
+CUST-1198,France,Referral,2024-11-10
+CUST-1199,Canada,Direct,2023-07-25
+CUST-1200,Germany,Organic Search,2025-06-20
+CUST-1201,Japan,Referral,2023-07-24
+CUST-1202,UK,Paid Social,2025-12-13
+CUST-1203,Germany,Referral,2025-07-24
+CUST-1204,USA,Referral,2023-02-01
+CUST-1205,Japan,Referral,2023-10-23
+CUST-1206,France,Email,2025-04-19
+CUST-1207,Canada,Organic Search,2026-09-02
+CUST-1208,Japan,Paid Social,2023-11-13
+CUST-1209,France,Paid Social,2023-06-03
+CUST-1210,Germany,Paid Social,2025-08-19
+CUST-1211,Germany,Direct,2024-06-26
+CUST-1212,UK,Paid Social,2024-11-24
+CUST-1213,UK,Paid Social,2026-06-30
+CUST-1214,Canada,Organic Search,2026-11-19
+CUST-1215,Japan,Direct,2025-03-25
+CUST-1216,UK,Direct,2026-08-23
+CUST-1217,Germany,Referral,2023-06-14
+CUST-1218,Japan,Email,2024-11-03
+CUST-1219,Germany,Direct,2026-10-13
+CUST-1220,USA,Direct,2025-12-28
+CUST-1221,Germany,Organic Search,2025-02-17
+CUST-1222,Canada,Paid Social,2024-10-10
+CUST-1223,Australia,Direct,2026-07-07
+CUST-1224,USA,Direct,2025-09-26
+CUST-1225,USA,Email,2026-01-13
+CUST-1226,Canada,Organic Search,2023-03-15
+CUST-1227,Japan,Email,2026-06-18
+CUST-1228,Japan,Direct,2023-05-21
+CUST-1229,Canada,Direct,2024-04-25
+CUST-1230,UK,Organic Search,2026-07-16
+CUST-1231,USA,Referral,2026-11-02
+CUST-1232,UK,Referral,2024-08-11
+CUST-1233,Germany,Direct,2024-04-10
+CUST-1234,USA,Direct,2023-07-05
+CUST-1235,USA,Email,2025-06-07
+CUST-1236,France,Email,2023-07-21
+CUST-1237,Australia,Email,2026-07-21
+CUST-1238,Japan,Paid Social,2026-12-12
+CUST-1239,USA,Direct,2023-07-25
+CUST-1240,Japan,Paid Social,2025-06-27
+CUST-1241,Germany,Referral,2023-12-07
+CUST-1242,Japan,Direct,2026-11-22
+CUST-1243,UK,Direct,2024-09-05
+CUST-1244,UK,Organic Search,2023-03-01
+CUST-1245,France,Direct,2023-04-05
+CUST-1246,Australia,Referral,2024-10-26
+CUST-1247,Germany,Direct,2023-04-25
+CUST-1248,UK,Paid Social,2024-08-23
+CUST-1249,Canada,Direct,2025-01-04
+CUST-1250,Germany,Paid Social,2025-02-06
+CUST-1251,Japan,Email,2025-06-01
+CUST-1252,Germany,Email,2023-10-26
+CUST-1253,Australia,Organic Search,2024-05-15
+CUST-1254,UK,Direct,2025-12-23
+CUST-1255,Germany,Email,2025-04-23
+CUST-1256,Japan,Email,2026-03-05
+CUST-1257,France,Organic Search,2026-10-28
+CUST-1258,France,Organic Search,2024-01-04
+CUST-1259,UK,Direct,2023-12-15
+CUST-1260,France,Paid Social,2023-12-25
+CUST-1261,Canada,Direct,2023-06-11
+CUST-1262,Australia,Paid Social,2026-06-02
+CUST-1263,France,Organic Search,2025-02-22
+CUST-1264,France,Referral,2026-06-23
+CUST-1265,Canada,Direct,2026-10-31
+CUST-1266,Australia,Referral,2024-05-08
+CUST-1267,Germany,Paid Social,2025-10-16
+CUST-1268,Australia,Direct,2026-04-09
+CUST-1269,USA,Referral,2023-10-21
+CUST-1270,UK,Referral,2024-04-20
+CUST-1271,UK,Direct,2025-08-02
+CUST-1272,USA,Referral,2026-07-30
+CUST-1273,Canada,Direct,2024-06-04
+CUST-1274,USA,Referral,2025-07-30
+CUST-1275,Germany,Organic Search,2024-06-06
+CUST-1276,Germany,Direct,2026-09-27
+CUST-1277,UK,Organic Search,2023-01-20
+CUST-1278,Germany,Email,2025-08-10
+CUST-1279,UK,Organic Search,2024-08-12
+CUST-1280,USA,Referral,2026-10-19
+CUST-1281,USA,Paid Social,2026-01-24
+CUST-1282,France,Organic Search,2023-11-20
+CUST-1283,France,Organic Search,2023-06-01
+CUST-1284,USA,Organic Search,2025-06-23
+CUST-1285,UK,Paid Social,2024-12-08
+CUST-1286,USA,Paid Social,2026-04-18
+CUST-1287,USA,Organic Search,2024-09-04
+CUST-1288,Japan,Email,2026-08-01
+CUST-1289,Canada,Paid Social,2025-05-18
+CUST-1290,USA,Paid Social,2026-11-14
+CUST-1291,Germany,Paid Social,2024-05-27
+CUST-1292,UK,Direct,2025-07-24
+CUST-1293,Canada,Organic Search,2024-09-10
+CUST-1294,France,Email,2024-02-12
+CUST-1295,Australia,Paid Social,2025-02-26
+CUST-1296,UK,Direct,2025-09-16
+CUST-1297,Germany,Referral,2023-08-07
+CUST-1298,UK,Referral,2024-04-30
+CUST-1299,France,Paid Social,2025-02-20
+CUST-1300,Germany,Email,2026-03-17
+CUST-1301,Germany,Email,2025-01-05
+CUST-1302,Australia,Organic Search,2026-03-23
+CUST-1303,UK,Paid Social,2024-08-28
+CUST-1304,Japan,Referral,2026-12-03
+CUST-1305,Australia,Organic Search,2024-08-27
+CUST-1306,Japan,Email,2023-02-14
+CUST-1307,Australia,Organic Search,2026-09-10
+CUST-1308,UK,Referral,2025-03-21
+CUST-1309,USA,Email,2024-07-16
+CUST-1310,USA,Direct,2023-01-17
+CUST-1311,France,Direct,2026-03-05
+CUST-1312,Australia,Paid Social,2026-11-05
+CUST-1313,Canada,Organic Search,2023-04-11
+CUST-1314,Australia,Email,2026-05-26
+CUST-1315,Australia,Paid Social,2025-10-14
+CUST-1316,Australia,Organic Search,2024-08-09
+CUST-1317,Japan,Referral,2024-04-16
+CUST-1318,France,Email,2026-05-28
+CUST-1319,USA,Organic Search,2024-12-22
+CUST-1320,France,Email,2024-03-24
+CUST-1321,France,Organic Search,2026-07-27
+CUST-1322,France,Referral,2024-01-25
+CUST-1323,USA,Email,2026-06-25
+CUST-1324,USA,Direct,2024-05-28
+CUST-1325,Australia,Referral,2026-10-20
+CUST-1326,France,Organic Search,2026-09-12
+CUST-1327,Canada,Email,2026-10-26
+CUST-1328,Japan,Referral,2023-10-08
+CUST-1329,Japan,Organic Search,2026-07-10
+CUST-1330,USA,Direct,2023-07-18
+CUST-1331,UK,Direct,2026-07-09
+CUST-1332,UK,Organic Search,2026-08-16
+CUST-1333,UK,Direct,2023-03-22
+CUST-1334,Germany,Referral,2024-09-24
+CUST-1335,Australia,Direct,2025-06-21
+CUST-1336,UK,Paid Social,2023-03-10
+CUST-1337,Australia,Direct,2026-04-01
+CUST-1338,UK,Paid Social,2025-01-17
+CUST-1339,Canada,Email,2023-09-27
+CUST-1340,Australia,Referral,2023-07-04
+CUST-1341,UK,Email,2024-08-27
+CUST-1342,Japan,Email,2024-10-31
+CUST-1343,USA,Direct,2025-04-30
+CUST-1344,Australia,Direct,2023-12-26
+CUST-1345,Japan,Direct,2024-02-16
+CUST-1346,Japan,Email,2023-09-28
+CUST-1347,Japan,Referral,2026-01-09
+CUST-1348,Germany,Referral,2025-01-19
+CUST-1349,USA,Paid Social,2025-12-23
+CUST-1350,USA,Organic Search,2025-10-24
+CUST-1351,France,Referral,2024-07-12
+CUST-1352,Germany,Direct,2023-12-03
+CUST-1353,Japan,Paid Social,2024-06-10
+CUST-1354,USA,Direct,2025-09-13
+CUST-1355,USA,Email,2024-08-27
+CUST-1356,Japan,Email,2024-11-24
+CUST-1357,Japan,Direct,2023-08-24
+CUST-1358,UK,Referral,2025-08-17
+CUST-1359,UK,Organic Search,2023-06-04
+CUST-1360,Australia,Direct,2023-10-16
+CUST-1361,Australia,Referral,2024-04-07
+CUST-1362,Australia,Paid Social,2026-10-17
+CUST-1363,UK,Direct,2026-10-13
+CUST-1364,Japan,Paid Social,2025-03-24
+CUST-1365,Australia,Referral,2026-02-15
+CUST-1366,USA,Referral,2025-01-19
+CUST-1367,UK,Referral,2023-07-04
+CUST-1368,Australia,Referral,2025-03-19
+CUST-1369,USA,Email,2023-01-29
+CUST-1370,Australia,Referral,2024-06-25
+CUST-1371,Canada,Email,2026-01-03
+CUST-1372,Japan,Organic Search,2023-09-11
+CUST-1373,Japan,Email,2025-07-20
+CUST-1374,Australia,Paid Social,2025-01-24
+CUST-1375,Canada,Organic Search,2026-10-09
+CUST-1376,Australia,Paid Social,2026-10-08
+CUST-1377,France,Direct,2024-06-20
+CUST-1378,France,Direct,2026-04-12
+CUST-1379,Japan,Email,2025-02-19
+CUST-1380,Germany,Paid Social,2026-07-31
+CUST-1381,France,Direct,2025-01-30
+CUST-1382,France,Direct,2023-08-10
+CUST-1383,Australia,Direct,2026-10-14
+CUST-1384,UK,Organic Search,2024-04-23
+CUST-1385,UK,Organic Search,2025-08-23
+CUST-1386,Canada,Referral,2023-02-21
+CUST-1387,UK,Paid Social,2026-06-22
+CUST-1388,USA,Direct,2026-02-23
+CUST-1389,Germany,Paid Social,2024-11-02
+CUST-1390,France,Referral,2026-06-03
+CUST-1391,Germany,Email,2024-03-29
+CUST-1392,USA,Referral,2026-08-19
+CUST-1393,France,Direct,2023-05-10
+CUST-1394,Canada,Email,2026-07-25
+CUST-1395,USA,Email,2025-08-08
+CUST-1396,USA,Referral,2026-12-06
+CUST-1397,Germany,Direct,2024-09-10
+CUST-1398,Australia,Email,2026-08-22
+CUST-1399,Germany,Referral,2025-04-16
+CUST-1400,Japan,Referral,2023-08-27
+CUST-1401,Germany,Direct,2023-10-14
+CUST-1402,UK,Referral,2023-04-03
+CUST-1403,USA,Referral,2023-03-18
+CUST-1404,Germany,Referral,2024-09-15
+CUST-1405,USA,Paid Social,2025-10-05
+CUST-1406,Japan,Organic Search,2023-08-26
+CUST-1407,UK,Paid Social,2023-07-19
+CUST-1408,USA,Referral,2024-04-25
+CUST-1409,Germany,Organic Search,2026-01-05
+CUST-1410,USA,Email,2023-10-05
+CUST-1411,France,Paid Social,2025-03-06
+CUST-1412,Japan,Paid Social,2025-07-18
+CUST-1413,UK,Paid Social,2025-01-29
+CUST-1414,Australia,Direct,2026-10-05
+CUST-1415,USA,Referral,2026-11-27
+CUST-1416,Germany,Email,2026-01-11
+CUST-1417,UK,Email,2025-05-08
+CUST-1418,Germany,Email,2026-04-17
+CUST-1419,Germany,Referral,2023-11-13
+CUST-1420,USA,Organic Search,2025-04-29
+CUST-1421,Germany,Paid Social,2026-09-03
+CUST-1422,USA,Referral,2023-07-22
+CUST-1423,Australia,Paid Social,2025-09-29
+CUST-1424,France,Referral,2026-06-14
+CUST-1425,Germany,Paid Social,2025-04-15
+CUST-1426,Germany,Referral,2024-07-26
+CUST-1427,Germany,Organic Search,2023-03-09
+CUST-1428,Canada,Email,2026-11-14
+CUST-1429,Canada,Paid Social,2025-01-28
+CUST-1430,UK,Referral,2024-03-20
+CUST-1431,France,Organic Search,2025-06-27
+CUST-1432,France,Organic Search,2025-06-29
+CUST-1433,Canada,Email,2024-04-28
+CUST-1434,UK,Referral,2025-01-12
+CUST-1435,Canada,Paid Social,2023-07-23
+CUST-1436,Australia,Direct,2026-11-05
+CUST-1437,UK,Organic Search,2025-01-22
+CUST-1438,France,Organic Search,2026-01-20
+CUST-1439,France,Email,2026-08-13
+CUST-1440,Canada,Referral,2025-01-04
+CUST-1441,Australia,Direct,2023-05-05
+CUST-1442,Canada,Direct,2025-03-26
+CUST-1443,Japan,Direct,2024-07-19
+CUST-1444,USA,Referral,2024-01-24
+CUST-1445,USA,Paid Social,2023-09-08
+CUST-1446,Australia,Organic Search,2025-07-20
+CUST-1447,Germany,Referral,2023-07-07
+CUST-1448,Germany,Direct,2026-09-19
+CUST-1449,USA,Organic Search,2024-03-10
+CUST-1450,USA,Organic Search,2026-08-07
+CUST-1451,Germany,Direct,2026-08-02
+CUST-1452,UK,Direct,2026-05-07
+CUST-1453,Germany,Organic Search,2023-02-13
+CUST-1454,Canada,Email,2023-04-14
+CUST-1455,UK,Organic Search,2024-11-14
+CUST-1456,Canada,Paid Social,2024-05-13
+CUST-1457,USA,Paid Social,2023-09-15
+CUST-1458,UK,Email,2026-03-02
+CUST-1459,Canada,Referral,2024-02-25
+CUST-1460,Canada,Organic Search,2023-05-21
+CUST-1461,UK,Paid Social,2026-02-09
+CUST-1462,Australia,Organic Search,2024-02-29
+CUST-1463,Japan,Email,2026-04-15
+CUST-1464,Germany,Direct,2024-03-18
+CUST-1465,France,Email,2024-04-22
+CUST-1466,Canada,Email,2024-11-03
+CUST-1467,Germany,Email,2023-10-30
+CUST-1468,Japan,Paid Social,2026-05-05
+CUST-1469,France,Email,2023-01-06
+CUST-1470,Germany,Direct,2024-07-21
+CUST-1471,USA,Direct,2023-10-24
+CUST-1472,France,Direct,2023-09-24
+CUST-1473,Japan,Referral,2026-01-11
+CUST-1474,Germany,Email,2024-05-28
+CUST-1475,Canada,Direct,2023-12-24
+CUST-1476,France,Referral,2023-08-14
+CUST-1477,USA,Email,2026-09-15
+CUST-1478,UK,Email,2023-02-22
+CUST-1479,Canada,Organic Search,2023-09-27
+CUST-1480,USA,Email,2023-01-31
+CUST-1481,USA,Organic Search,2025-01-03
+CUST-1482,France,Paid Social,2024-05-02
+CUST-1483,Germany,Paid Social,2026-04-20
+CUST-1484,UK,Referral,2024-10-25
+CUST-1485,Canada,Organic Search,2023-02-02
+CUST-1486,Canada,Paid Social,2023-12-23
+CUST-1487,Germany,Paid Social,2024-06-27
+CUST-1488,UK,Paid Social,2023-04-18
+CUST-1489,France,Email,2023-09-17
+CUST-1490,Canada,Organic Search,2025-05-12
+CUST-1491,UK,Paid Social,2025-12-13
+CUST-1492,France,Organic Search,2023-08-21
+CUST-1493,France,Direct,2023-05-11
+CUST-1494,Japan,Direct,2025-09-02
+CUST-1495,Canada,Email,2025-07-07
+CUST-1496,Germany,Direct,2025-01-11
+CUST-1497,Australia,Referral,2025-11-17
+CUST-1498,Canada,Organic Search,2026-04-30
+CUST-1499,Japan,Paid Social,2023-08-12

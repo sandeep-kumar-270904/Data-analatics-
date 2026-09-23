@@ -3,56 +3,85 @@ import numpy as np
 import random
 from datetime import datetime, timedelta
 
-def generate_data():
+def generate_enterprise_data():
     np.random.seed(42)
     random.seed(42)
     
-    n_rows = 1000
+    # 1. Customers
+    n_customers = 500
+    customer_ids = [f"CUST-{1000 + i}" for i in range(n_customers)]
+    channels = ['Organic Search', 'Paid Social', 'Referral', 'Direct', 'Email']
+    countries = ['USA', 'UK', 'Canada', 'Australia', 'Germany', 'France', 'Japan']
     
-    # Generate Transaction IDs
-    transaction_ids = [f"TXN-{10000 + i}" for i in range(n_rows)]
-    
-    # Generate Customer IDs (with intentional repeats to allow RFM scoring)
-    customer_ids = [f"CUST-{random.randint(100, 350)}" for _ in range(n_rows)]
-    
-    # Generate Purchase Dates between 2024-01-01 and 2026-12-31
-    start_date = datetime(2024, 1, 1)
+    start_date = datetime(2023, 1, 1)
     end_date = datetime(2026, 12, 31)
     date_range = (end_date - start_date).days
-    purchase_dates = [start_date + timedelta(days=random.randint(0, date_range)) for _ in range(n_rows)]
     
-    # Generate Product Categories
-    categories = ['Apparel', 'Electronics', 'Home Decor', 'Footwear']
-    product_categories = [random.choice(categories) for _ in range(n_rows)]
-    
-    # Generate Countries
-    countries = ['USA', 'UK', 'Canada', 'Australia', 'Germany', 'France', 'Japan']
-    country_list = [random.choice(countries) for _ in range(n_rows)]
-    
-    # Generate Order Values (Normal values between $20 and $1500)
-    order_values = np.random.uniform(20, 1500, n_rows)
-    
-    # Inject dirty data: 5% negative values, 10% NaN/null values
-    for i in range(n_rows):
-        rand_val = random.random()
-        if rand_val < 0.05:
-            order_values[i] = -abs(order_values[i]) # Negative value
-        elif rand_val < 0.15: # 10% chance
-            order_values[i] = np.nan # Null value
-            
-    # Create DataFrame
-    df = pd.DataFrame({
-        'Transaction_ID': transaction_ids,
+    customers_df = pd.DataFrame({
         'Customer_ID': customer_ids,
-        'Purchase_Date': purchase_dates,
-        'Product_Category': product_categories,
-        'Order_Value': order_values,
-        'Country': country_list
+        'Country': [random.choice(countries) for _ in range(n_customers)],
+        'Acquisition_Channel': [random.choice(channels) for _ in range(n_customers)],
+        'Signup_Date': [start_date + timedelta(days=random.randint(0, date_range)) for _ in range(n_customers)]
     })
     
-    # Save to CSV
-    df.to_csv('dirty_ecommerce_data.csv', index=False)
-    print("Dataset 'dirty_ecommerce_data.csv' successfully generated with 1000 records.")
+    # 2. Products
+    categories = ['Apparel', 'Electronics', 'Home Decor', 'Footwear', 'Accessories']
+    products = []
+    for i in range(30):
+        cat = random.choice(categories)
+        cost = round(random.uniform(5, 300), 2)
+        # Price is Cost + Margin (between 20% and 150%)
+        margin = random.uniform(0.2, 1.5)
+        price = round(cost * (1 + margin), 2)
+        products.append({
+            'Product_ID': f"PROD-{100 + i}",
+            'Category': cat,
+            'Unit_Cost': cost,
+            'Retail_Price': price
+        })
+    products_df = pd.DataFrame(products)
+    
+    # 3. Orders
+    n_orders = 5000
+    orders = []
+    for i in range(n_orders):
+        cust = customers_df.sample(1).iloc[0]
+        prod = products_df.sample(1).iloc[0]
+        
+        # Order date must be >= Signup_Date
+        cust_signup = cust['Signup_Date']
+        max_days = (end_date - cust_signup).days
+        if max_days < 1:
+            order_date = cust_signup
+        else:
+            order_date = cust_signup + timedelta(days=random.randint(0, max_days))
+            
+        quantity = random.choices([1, 2, 3, 4, 5], weights=[60, 20, 10, 5, 5])[0]
+        status = random.choices(['Completed', 'Returned', 'Cancelled'], weights=[85, 10, 5])[0]
+        
+        orders.append({
+            'Order_ID': f"ORD-{10000 + i}",
+            'Customer_ID': cust['Customer_ID'],
+            'Product_ID': prod['Product_ID'],
+            'Order_Date': order_date,
+            'Quantity': quantity,
+            'Status': status
+        })
+        
+    orders_df = pd.DataFrame(orders)
+    
+    # Sort orders by date
+    orders_df = orders_df.sort_values('Order_Date').reset_index(drop=True)
+    
+    # Save to CSVs
+    customers_df.to_csv('customers.csv', index=False)
+    products_df.to_csv('products.csv', index=False)
+    orders_df.to_csv('orders.csv', index=False)
+    
+    print("Enterprise Dataset Generated successfully:")
+    print(f"- customers.csv ({len(customers_df)} rows)")
+    print(f"- products.csv ({len(products_df)} rows)")
+    print(f"- orders.csv ({len(orders_df)} rows)")
 
 if __name__ == "__main__":
-    generate_data()
+    generate_enterprise_data()
