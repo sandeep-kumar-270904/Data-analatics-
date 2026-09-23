@@ -15,33 +15,17 @@ st.set_page_config(page_title="Nexus Analytics", page_icon="🔮", layout="wide"
 # --- Custom CSS ---
 st.markdown("""
 <style>
-    /* Main background */
-    .stApp {
-        background-color: #f8f9fa;
-    }
-    
     /* KPI Cards */
     div[data-testid="metric-container"] {
-        background-color: #ffffff;
         border-radius: 12px;
         padding: 20px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        border: 1px solid #e9ecef;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        border: 1px solid rgba(128, 128, 128, 0.2);
     }
     div[data-testid="metric-container"]:hover {
-        box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.2);
         transform: translateY(-2px);
         transition: all 0.3s ease;
-    }
-    
-    /* Sidebar */
-    section[data-testid="stSidebar"] {
-        background-color: #ffffff;
-        border-right: 1px solid #e9ecef;
-    }
-    
-    h1, h2, h3, h4 {
-        color: #1e293b;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -120,7 +104,7 @@ with col_main:
         fig_profit = px.bar(cat_profit, x='Category', y='Profit', color='Margin', 
                             color_continuous_scale='Greens', text_auto='.2s',
                             title="Net Profit Contribution by Category")
-        fig_profit.update_layout(plot_bgcolor='white', paper_bgcolor='white')
+        
         st.plotly_chart(fig_profit, use_container_width=True)
         
         st.markdown("#### Revenue Trend Forecast")
@@ -132,7 +116,7 @@ with col_main:
         fig_trend = go.Figure()
         fig_trend.add_trace(go.Scatter(x=trend['Order_Date'], y=trend['Revenue'], mode='lines', name='Actual Revenue', line=dict(color='#3b82f6')))
         fig_trend.add_trace(go.Scatter(x=trend['Order_Date'], y=trend['30-Day Moving Avg'], mode='lines', name='Trend', line=dict(color='#ef4444', dash='dash')))
-        fig_trend.update_layout(plot_bgcolor='white', paper_bgcolor='white', hovermode='x unified')
+        fig_trend.update_layout(hovermode='x unified')
         st.plotly_chart(fig_trend, use_container_width=True)
 
     with t2:
@@ -166,7 +150,7 @@ with col_main:
             color_continuous_scale='Blues',
             aspect="auto"
         )
-        fig_heatmap.update_layout(plot_bgcolor='white', paper_bgcolor='white')
+
         st.plotly_chart(fig_heatmap, use_container_width=True)
 
     with t3:
