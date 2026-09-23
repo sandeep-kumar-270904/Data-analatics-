@@ -94,97 +94,97 @@ st.markdown("<br>", unsafe_allow_html=True)
 col_main, col_ai = st.columns([7, 3], gap="large")
 
 with col_main:
-    # TABS FOR ADVANCED ANALYTICS
-    t1, t2, t3 = st.tabs(["💰 Profitability & Sales", "🔄 Cohort Retention", "👥 RFM Customer Segments"])
+    # --- DASHBOARD GRID LAYOUT ---
     
-    with t1:
-        st.markdown("#### Profit Margin by Category")
+    # ROW 1: Profit & Trend
+    r1c1, r1c2 = st.columns(2)
+    
+    with r1c1:
+        st.markdown("**Profit Margin by Category**")
         cat_profit = df.groupby('Category').agg({'Revenue': 'sum', 'Profit': 'sum'}).reset_index()
         cat_profit['Margin'] = cat_profit['Profit'] / cat_profit['Revenue']
         fig_profit = px.bar(cat_profit, x='Category', y='Profit', color='Margin', 
-                            color_continuous_scale='Greens', text_auto='.2s',
-                            title="Net Profit Contribution by Category")
-        
+                            color_continuous_scale='Greens', text_auto='.2s')
+        fig_profit.update_layout(margin=dict(l=20, r=20, t=20, b=20), height=350)
         st.plotly_chart(fig_profit, use_container_width=True)
         
-        st.markdown("#### Revenue Trend Forecast")
-        # Simple moving average forecast
+    with r1c2:
+        st.markdown("**Revenue Trend Forecast**")
         trend = df.groupby(df['Order_Date'].dt.to_period('W'))['Revenue'].sum().reset_index()
         trend['Order_Date'] = trend['Order_Date'].dt.to_timestamp()
         trend['30-Day Moving Avg'] = trend['Revenue'].rolling(window=4).mean()
         
         fig_trend = go.Figure()
-        fig_trend.add_trace(go.Scatter(x=trend['Order_Date'], y=trend['Revenue'], mode='lines', name='Actual Revenue', line=dict(color='#3b82f6')))
+        fig_trend.add_trace(go.Scatter(x=trend['Order_Date'], y=trend['Revenue'], mode='lines', name='Actual', line=dict(color='#3b82f6')))
         fig_trend.add_trace(go.Scatter(x=trend['Order_Date'], y=trend['30-Day Moving Avg'], mode='lines', name='Trend', line=dict(color='#ef4444', dash='dash')))
-        fig_trend.update_layout(hovermode='x unified')
+        fig_trend.update_layout(hovermode='x unified', margin=dict(l=20, r=20, t=20, b=20), height=350)
         st.plotly_chart(fig_trend, use_container_width=True)
 
-    with t2:
-        st.markdown("#### Customer Retention Heatmap")
-        st.info("Tracks the percentage of customers who return to make purchases in subsequent months.")
-        
-        # Cohort calculation
-        df['CohortMonth'] = df['Signup_Date'].dt.to_period('M')
-        df['OrderMonth'] = df['Order_Date'].dt.to_period('M')
-        
-        df_cohort = df.groupby(['CohortMonth', 'OrderMonth']).agg(n_customers=('Customer_ID', 'nunique')).reset_index()
-        df_cohort['PeriodNumber'] = (df_cohort.OrderMonth - df_cohort.CohortMonth).apply(lambda x: x.n)
-        
-        cohort_pivot = df_cohort.pivot_table(index='CohortMonth', columns='PeriodNumber', values='n_customers')
-        cohort_size = cohort_pivot.iloc[:, 0]
-        retention = cohort_pivot.divide(cohort_size, axis=0)
-        
-        # Plotly Heatmap
-        # Limit to first 12 periods for visualization
-        retention_vis = retention.iloc[-12:, :12]
-        
-        y_labels = [str(p) for p in retention_vis.index]
-        x_labels = [f"M+{i}" for i in retention_vis.columns]
-        
-        fig_heatmap = px.imshow(
-            retention_vis.values,
-            labels=dict(x="Months Since Signup", y="Cohort Month", color="Retention"),
-            x=x_labels,
-            y=y_labels,
-            text_auto='.0%',
-            color_continuous_scale='Blues',
-            aspect="auto"
-        )
+    # ROW 2: Cohort Heatmap (Full Width)
+    st.markdown("---")
+    st.markdown("**Customer Retention Heatmap (Month-over-Month)**")
+    
+    df['CohortMonth'] = df['Signup_Date'].dt.to_period('M')
+    df['OrderMonth'] = df['Order_Date'].dt.to_period('M')
+    
+    df_cohort = df.groupby(['CohortMonth', 'OrderMonth']).agg(n_customers=('Customer_ID', 'nunique')).reset_index()
+    df_cohort['PeriodNumber'] = (df_cohort.OrderMonth - df_cohort.CohortMonth).apply(lambda x: x.n)
+    
+    cohort_pivot = df_cohort.pivot_table(index='CohortMonth', columns='PeriodNumber', values='n_customers')
+    cohort_size = cohort_pivot.iloc[:, 0]
+    retention = cohort_pivot.divide(cohort_size, axis=0)
+    
+    retention_vis = retention.iloc[-12:, :12]
+    y_labels = [str(p) for p in retention_vis.index]
+    x_labels = [f"M+{i}" for i in retention_vis.columns]
+    
+    fig_heatmap = px.imshow(
+        retention_vis.values,
+        labels=dict(x="Months Since Signup", y="Cohort Month", color="Retention"),
+        x=x_labels,
+        y=y_labels,
+        text_auto='.0%',
+        color_continuous_scale='Blues',
+        aspect="auto"
+    )
+    fig_heatmap.update_layout(margin=dict(l=20, r=20, t=20, b=20), height=350)
+    st.plotly_chart(fig_heatmap, use_container_width=True)
 
-        st.plotly_chart(fig_heatmap, use_container_width=True)
-
-    with t3:
-        st.markdown("#### Actionable Customer Segmentation")
-        reference_date = df['Order_Date'].max() + pd.Timedelta(days=1)
-        rfm = df.groupby('Customer_ID').agg({
-            'Order_Date': lambda x: (reference_date - x.max()).days,
-            'Order_ID': 'count',
-            'Profit': 'sum'
-        }).reset_index()
-        rfm.columns = ['Customer_ID', 'Recency', 'Frequency', 'Monetary']
+    # ROW 3: RFM Segmentation
+    st.markdown("---")
+    st.markdown("**Actionable Customer Segmentation (RFM Model)**")
+    
+    reference_date = df['Order_Date'].max() + pd.Timedelta(days=1)
+    rfm = df.groupby('Customer_ID').agg({
+        'Order_Date': lambda x: (reference_date - x.max()).days,
+        'Order_ID': 'count',
+        'Profit': 'sum'
+    }).reset_index()
+    rfm.columns = ['Customer_ID', 'Recency', 'Frequency', 'Monetary']
+    
+    try:
+        rfm['R'] = pd.qcut(rfm['Recency'].rank(method='first'), 3, labels=[3, 2, 1])
+        rfm['F'] = pd.qcut(rfm['Frequency'].rank(method='first'), 3, labels=[1, 2, 3])
+        rfm['M'] = pd.qcut(rfm['Monetary'].rank(method='first'), 3, labels=[1, 2, 3])
         
-        try:
-            rfm['R'] = pd.qcut(rfm['Recency'].rank(method='first'), 3, labels=[3, 2, 1])
-            rfm['F'] = pd.qcut(rfm['Frequency'].rank(method='first'), 3, labels=[1, 2, 3])
-            rfm['M'] = pd.qcut(rfm['Monetary'].rank(method='first'), 3, labels=[1, 2, 3])
-            
-            def seg(row):
-                score = int(row['R']) + int(row['F']) + int(row['M'])
-                if score >= 8: return 'Whales (High Value)'
-                elif score >= 5: return 'Core Loyalists'
-                else: return 'At Risk Churn'
-            rfm['Segment'] = rfm.apply(seg, axis=1)
-            
-            c_s1, c_s2 = st.columns([1, 1])
-            with c_s1:
-                seg_counts = rfm['Segment'].value_counts().reset_index()
-                fig_seg = px.pie(seg_counts, values='count', names='Segment', hole=0.5, 
-                                 color_discrete_sequence=['#10b981', '#3b82f6', '#ef4444'])
-                st.plotly_chart(fig_seg, use_container_width=True)
-            with c_s2:
-                st.dataframe(rfm.sort_values('Monetary', ascending=False).head(50), height=350, use_container_width=True)
-        except Exception as e:
-            st.error("Insufficient data for RFM quantiles.")
+        def seg(row):
+            score = int(row['R']) + int(row['F']) + int(row['M'])
+            if score >= 8: return 'Whales (High Value)'
+            elif score >= 5: return 'Core Loyalists'
+            else: return 'At Risk Churn'
+        rfm['Segment'] = rfm.apply(seg, axis=1)
+        
+        r3c1, r3c2 = st.columns([1, 1.5])
+        with r3c1:
+            seg_counts = rfm['Segment'].value_counts().reset_index()
+            fig_seg = px.pie(seg_counts, values='count', names='Segment', hole=0.5, 
+                             color_discrete_sequence=['#10b981', '#3b82f6', '#ef4444'])
+            fig_seg.update_layout(margin=dict(l=20, r=20, t=20, b=20), height=350)
+            st.plotly_chart(fig_seg, use_container_width=True)
+        with r3c2:
+            st.dataframe(rfm.sort_values('Monetary', ascending=False).head(50), height=350, use_container_width=True)
+    except Exception as e:
+        st.error("Insufficient data for RFM quantiles.")
 
 
 with col_ai:
