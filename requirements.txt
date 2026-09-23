@@ -4,3 +4,6 @@ plotly
 numpy
 google-generativeai
 python-dotenv
+langchain
+langchain-experimental
+langchain-google-genai

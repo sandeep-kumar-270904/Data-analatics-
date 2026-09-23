@@ -149,19 +149,29 @@ with col_ai:
                 with st.chat_message("user"):
                     st.markdown(prompt)
                 
-            summary_stats = f"""
-            Active Filters: Country={selected_country}, Category={selected_category}
-            Current Metrics: Revenue=${total_revenue:,.2f}, Transactions={total_transactions}, Unique Customers={unique_customers}
-            """
-            
-            ai_prompt = f"Data context: {summary_stats}\nUser: {prompt}\nBe concise, professional, and act as a senior data analyst."
-            
             with chat_container:
                 with st.chat_message("assistant"):
-                    with st.spinner("Thinking..."):
+                    with st.spinner("Analyzing raw data with Python..."):
                         try:
-                            response = model.generate_content(ai_prompt)
-                            st.markdown(response.text)
-                            st.session_state.messages.append({"role": "assistant", "content": response.text})
+                            from langchain_experimental.agents import create_pandas_dataframe_agent
+                            from langchain_google_genai import ChatGoogleGenerativeAI
+                            
+                            # Initialize the LLM
+                            llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=api_key, temperature=0)
+                            
+                            # Create the Data Scientist Agent with full access to the dataframe
+                            agent = create_pandas_dataframe_agent(
+                                llm, 
+                                df, 
+                                verbose=False, 
+                                allow_dangerous_code=True
+                            )
+                            
+                            # Ask the agent
+                            response = agent.invoke(prompt)
+                            output = str(response.get("output", response))
+                            
+                            st.markdown(output)
+                            st.session_state.messages.append({"role": "assistant", "content": output})
                         except Exception as e:
-                            st.error(f"Error connecting to AI: {e}")
+                            st.error(f"Error executing data analysis: {e}")
