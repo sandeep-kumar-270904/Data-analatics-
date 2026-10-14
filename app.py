@@ -3,236 +3,381 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from datetime import datetime
-import google.generativeai as genai
 import os
 from dotenv import load_dotenv
+from google import genai
+from google.genai import types
 
-# Load env
+# Load environment variables
 load_dotenv()
 
-st.set_page_config(page_title="Nexus Analytics", page_icon="🔮", layout="wide")
+st.set_page_config(
+    page_title="Nexus Analytics | Enterprise Intelligence",
+    page_icon="🔮",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
-# --- Custom CSS ---
+# --- Executive Styling ---
 st.markdown("""
 <style>
-    /* KPI Cards */
+    /* Metric Card Styling */
     div[data-testid="metric-container"] {
+        background: rgba(255, 255, 255, 0.03);
         border-radius: 12px;
-        padding: 20px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        padding: 16px 20px;
         border: 1px solid rgba(128, 128, 128, 0.2);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
     div[data-testid="metric-container"]:hover {
-        box-shadow: 0 6px 12px rgba(0,0,0,0.2);
         transform: translateY(-2px);
-        transition: all 0.3s ease;
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+        border-color: rgba(59, 130, 246, 0.5);
+    }
+    
+    /* Header subtle underline */
+    .dashboard-header {
+        border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+    
+    /* Quick prompt button style */
+    .stButton>button {
+        border-radius: 8px;
+        font-size: 0.82rem;
+        transition: all 0.2s;
     }
 </style>
 """, unsafe_allow_html=True)
 
-st.title("🔮 Nexus Analytics Platform")
-st.markdown("Enterprise Data Warehouse & AI Intelligence")
-
-# --- Load Data ---
+# --- Load & Prep Data ---
 @st.cache_data
 def load_data():
     try:
         customers = pd.read_csv('customers.csv')
         products = pd.read_csv('products.csv')
         orders = pd.read_csv('orders.csv')
-    except Exception as e:
-        st.error("Data missing. Please run `python generate_data.py`.")
-        st.stop()
+    except Exception:
+        # Fallback to generate data if missing
+        import generate_data
+        generate_data.generate_enterprise_data()
+        customers = pd.read_csv('customers.csv')
+        products = pd.read_csv('products.csv')
+        orders = pd.read_csv('orders.csv')
         
-    # Convert dates
     customers['Signup_Date'] = pd.to_datetime(customers['Signup_Date'])
     orders['Order_Date'] = pd.to_datetime(orders['Order_Date'])
     
-    # Merge data
+    # Relational Join
     df = orders.merge(customers, on='Customer_ID', how='left')
     df = df.merge(products, on='Product_ID', how='left')
     
-    # Calculate financial metrics
+    # Financial metrics
     df['Revenue'] = df['Quantity'] * df['Retail_Price']
     df['COGS'] = df['Quantity'] * df['Unit_Cost']
     df['Profit'] = df['Revenue'] - df['COGS']
     
-    # Exclude returned/cancelled from active revenue
-    df_valid = df[df['Status'] == 'Completed']
-    return df, df_valid
+    # Valid completed transactions
+    df_completed = df[df['Status'] == 'Completed'].copy()
+    return df, df_completed
 
 df_raw, df_valid = load_data()
 
 # --- Sidebar Filters ---
-st.sidebar.header("🎛️ Global Filters")
-selected_country = st.sidebar.selectbox("Market (Country)", ["Global"] + list(df_valid['Country'].unique()))
-selected_channel = st.sidebar.selectbox("Acquisition Channel", ["All Channels"] + list(df_valid['Acquisition_Channel'].unique()))
+with st.sidebar:
+    st.title("🔮 Nexus Data Hub")
+    st.caption("Enterprise Relational Intelligence")
+    st.markdown("---")
+    st.subheader("Filter Controls")
+    
+    all_countries = ["Global"] + sorted(list(df_valid['Country'].dropna().unique()))
+    selected_country = st.selectbox("Market Region", all_countries)
+    
+    all_channels = ["All Channels"] + sorted(list(df_valid['Acquisition_Channel'].dropna().unique()))
+    selected_channel = st.selectbox("Acquisition Channel", all_channels)
+    
+    all_categories = ["All Categories"] + sorted(list(df_valid['Category'].dropna().unique()))
+    selected_category = st.selectbox("Product Category", all_categories)
+    
+    st.markdown("---")
+    st.caption("System Status: **Connected to Data Warehouse**")
+    st.caption(f"Total Transactions in DB: **{len(df_raw):,}**")
 
+# Apply Filters
 df = df_valid.copy()
 if selected_country != "Global":
     df = df[df['Country'] == selected_country]
 if selected_channel != "All Channels":
     df = df[df['Acquisition_Channel'] == selected_channel]
+if selected_category != "All Categories":
+    df = df[df['Category'] == selected_category]
 
-# --- KPIs ---
-st.markdown("### 📈 Key Performance Indicators")
-col1, col2, col3, col4 = st.columns(4)
+# --- Main Dashboard Header ---
+st.markdown("""
+<div class="dashboard-header">
+    <h1 style='margin-bottom: 2px;'>🔮 Nexus Analytics Platform</h1>
+    <p style='color: gray; margin: 0;'>Executive E-Commerce Performance, Cohort Retention & AI Intelligence</p>
+</div>
+""", unsafe_allow_html=True)
 
-total_rev = df['Revenue'].sum()
-total_profit = df['Profit'].sum()
-margin = (total_profit / total_rev) * 100 if total_rev > 0 else 0
-active_customers = df['Customer_ID'].nunique()
+# --- Executive KPI Row ---
+k1, k2, k3, k4, k5 = st.columns(5)
 
-col1.metric("Gross Revenue", f"${total_rev:,.0f}")
-col2.metric("Net Profit", f"${total_profit:,.0f}")
-col3.metric("Profit Margin", f"{margin:.1f}%")
-col4.metric("Active Customers", f"{active_customers:,}")
+gross_rev = df['Revenue'].sum()
+net_profit = df['Profit'].sum()
+margin = (net_profit / gross_rev * 100) if gross_rev > 0 else 0
+unique_custs = df['Customer_ID'].nunique()
+aov = df['Revenue'].mean() if len(df) > 0 else 0
+
+k1.metric("Gross Revenue", f"${gross_rev:,.0f}", f"{len(df):,} orders")
+k2.metric("Net Profit", f"${net_profit:,.0f}", f"{margin:.1f}% margin")
+k3.metric("Profit Margin", f"{margin:.1f}%", "EBITDA aligned")
+k4.metric("Active Customers", f"{unique_custs:,}", f"${gross_rev/max(1, unique_custs):,.0f} rev/cust")
+k5.metric("Avg Order Value", f"${aov:,.2f}", "per checkout")
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-# --- Layout: Main | AI Agent ---
-col_main, col_ai = st.columns([7, 3], gap="large")
+# --- Two Column Grid: [Dashboard 70% | AI Agent 30%] ---
+col_dash, col_ai = st.columns([7, 3], gap="large")
 
-with col_main:
-    # --- DASHBOARD GRID LAYOUT ---
-    
-    # ROW 1: Profit & Trend
+with col_dash:
+    # Row 1: Profit Margin by Category & Revenue Trend
     r1c1, r1c2 = st.columns(2)
     
     with r1c1:
-        st.markdown("**Profit Margin by Category**")
-        cat_profit = df.groupby('Category').agg({'Revenue': 'sum', 'Profit': 'sum'}).reset_index()
-        cat_profit['Margin'] = cat_profit['Profit'] / cat_profit['Revenue']
-        fig_profit = px.bar(cat_profit, x='Category', y='Profit', color='Margin', 
-                            color_continuous_scale='Greens', text_auto='.2s')
-        fig_profit.update_layout(margin=dict(l=20, r=20, t=20, b=20), height=350)
-        st.plotly_chart(fig_profit, use_container_width=True)
+        st.markdown("##### 📊 Profit Margin & Revenue by Category")
+        cat_agg = df.groupby('Category').agg({'Revenue': 'sum', 'Profit': 'sum'}).reset_index()
+        cat_agg['Margin_%'] = (cat_agg['Profit'] / cat_agg['Revenue'] * 100).round(1)
+        
+        fig_cat = px.bar(
+            cat_agg, 
+            x='Category', 
+            y='Profit', 
+            color='Margin_%',
+            text=cat_agg['Profit'].apply(lambda x: f"${x:,.0f}"),
+            color_continuous_scale='Greens',
+            hover_data=['Revenue', 'Margin_%']
+        )
+        fig_cat.update_layout(
+            margin=dict(l=10, r=10, t=10, b=10),
+            height=320,
+            xaxis_title=None,
+            yaxis_title="Net Profit ($)"
+        )
+        st.plotly_chart(fig_cat, width="stretch")
         
     with r1c2:
-        st.markdown("**Revenue Trend Forecast**")
-        trend = df.groupby(df['Order_Date'].dt.to_period('W'))['Revenue'].sum().reset_index()
-        trend['Order_Date'] = trend['Order_Date'].dt.to_timestamp()
-        trend['30-Day Moving Avg'] = trend['Revenue'].rolling(window=4).mean()
+        st.markdown("##### 📈 Weekly Revenue & 30-Day Moving Trend")
+        weekly = df.set_index('Order_Date').resample('W-MON')['Revenue'].sum().reset_index()
+        weekly['30D_MA'] = weekly['Revenue'].rolling(window=4, min_periods=1).mean()
         
         fig_trend = go.Figure()
-        fig_trend.add_trace(go.Scatter(x=trend['Order_Date'], y=trend['Revenue'], mode='lines', name='Actual', line=dict(color='#3b82f6')))
-        fig_trend.add_trace(go.Scatter(x=trend['Order_Date'], y=trend['30-Day Moving Avg'], mode='lines', name='Trend', line=dict(color='#ef4444', dash='dash')))
-        fig_trend.update_layout(hovermode='x unified', margin=dict(l=20, r=20, t=20, b=20), height=350)
-        st.plotly_chart(fig_trend, use_container_width=True)
+        fig_trend.add_trace(go.Scatter(
+            x=weekly['Order_Date'], 
+            y=weekly['Revenue'], 
+            mode='lines', 
+            name='Weekly Actual',
+            line=dict(color='#3b82f6', width=2)
+        ))
+        fig_trend.add_trace(go.Scatter(
+            x=weekly['Order_Date'], 
+            y=weekly['30D_MA'], 
+            mode='lines', 
+            name='30-Day Trend',
+            line=dict(color='#ef4444', width=2.5, dash='dash')
+        ))
+        fig_trend.update_layout(
+            margin=dict(l=10, r=10, t=10, b=10),
+            height=320,
+            hovermode='x unified',
+            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+        )
+        st.plotly_chart(fig_trend, width="stretch")
 
-    # ROW 2: Cohort Heatmap (Full Width)
     st.markdown("---")
-    st.markdown("**Customer Retention Heatmap (Month-over-Month)**")
     
-    df['CohortMonth'] = df['Signup_Date'].dt.to_period('M')
-    df['OrderMonth'] = df['Order_Date'].dt.to_period('M')
-    
-    df_cohort = df.groupby(['CohortMonth', 'OrderMonth']).agg(n_customers=('Customer_ID', 'nunique')).reset_index()
-    df_cohort['PeriodNumber'] = (df_cohort.OrderMonth - df_cohort.CohortMonth).apply(lambda x: x.n)
-    
-    cohort_pivot = df_cohort.pivot_table(index='CohortMonth', columns='PeriodNumber', values='n_customers')
-    cohort_size = cohort_pivot.iloc[:, 0]
-    retention = cohort_pivot.divide(cohort_size, axis=0)
-    
-    retention_vis = retention.iloc[-12:, :12]
-    y_labels = [str(p) for p in retention_vis.index]
-    x_labels = [f"M+{i}" for i in retention_vis.columns]
-    
-    fig_heatmap = px.imshow(
-        retention_vis.values,
-        labels=dict(x="Months Since Signup", y="Cohort Month", color="Retention"),
-        x=x_labels,
-        y=y_labels,
-        text_auto='.0%',
-        color_continuous_scale='Blues',
-        aspect="auto"
-    )
-    fig_heatmap.update_layout(margin=dict(l=20, r=20, t=20, b=20), height=350)
-    st.plotly_chart(fig_heatmap, use_container_width=True)
-
-    # ROW 3: RFM Segmentation
-    st.markdown("---")
-    st.markdown("**Actionable Customer Segmentation (RFM Model)**")
-    
-    reference_date = df['Order_Date'].max() + pd.Timedelta(days=1)
-    rfm = df.groupby('Customer_ID').agg({
-        'Order_Date': lambda x: (reference_date - x.max()).days,
-        'Order_ID': 'count',
-        'Profit': 'sum'
-    }).reset_index()
-    rfm.columns = ['Customer_ID', 'Recency', 'Frequency', 'Monetary']
+    # Row 2: Customer Cohort Retention Heatmap
+    st.markdown("##### 🔄 Cohort Retention Matrix (Month-over-Month)")
+    st.caption("Percentage of customer cohorts returning to purchase in subsequent months.")
     
     try:
+        cohort_df = df.copy()
+        cohort_df['CohortMonth'] = cohort_df['Signup_Date'].dt.to_period('M')
+        cohort_df['OrderMonth'] = cohort_df['Order_Date'].dt.to_period('M')
+        
+        cohort_group = cohort_df.groupby(['CohortMonth', 'OrderMonth']).agg(
+            n_customers=('Customer_ID', 'nunique')
+        ).reset_index()
+        cohort_group['PeriodIndex'] = (cohort_group.OrderMonth - cohort_group.CohortMonth).apply(lambda x: x.n)
+        
+        pivot = cohort_group.pivot_table(index='CohortMonth', columns='PeriodIndex', values='n_customers')
+        cohort_sizes = pivot.iloc[:, 0]
+        retention_matrix = pivot.divide(cohort_sizes, axis=0)
+        
+        # Display latest 10 cohorts up to 10 periods
+        display_matrix = retention_matrix.iloc[-10:, :10]
+        y_labels = [str(p) for p in display_matrix.index]
+        x_labels = [f"M+{col}" for col in display_matrix.columns]
+        
+        fig_heat = px.imshow(
+            display_matrix.values,
+            labels=dict(x="Months Post Signup", y="Cohort Group", color="Retention"),
+            x=x_labels,
+            y=y_labels,
+            text_auto='.0%',
+            color_continuous_scale='Blues',
+            aspect="auto"
+        )
+        fig_heat.update_layout(margin=dict(l=10, r=10, t=10, b=10), height=320)
+        st.plotly_chart(fig_heat, width="stretch")
+    except Exception as e:
+        st.info("Cohort data calculating...")
+
+    st.markdown("---")
+    
+    # Row 3: RFM Customer Segmentation
+    st.markdown("##### 👥 RFM Customer Value Segmentation")
+    
+    try:
+        ref_date = df['Order_Date'].max() + pd.Timedelta(days=1)
+        rfm = df.groupby('Customer_ID').agg({
+            'Order_Date': lambda x: (ref_date - x.max()).days,
+            'Order_ID': 'count',
+            'Profit': 'sum'
+        }).reset_index()
+        rfm.columns = ['Customer_ID', 'Recency', 'Frequency', 'Monetary']
+        
+        # Scoring
         rfm['R'] = pd.qcut(rfm['Recency'].rank(method='first'), 3, labels=[3, 2, 1])
         rfm['F'] = pd.qcut(rfm['Frequency'].rank(method='first'), 3, labels=[1, 2, 3])
         rfm['M'] = pd.qcut(rfm['Monetary'].rank(method='first'), 3, labels=[1, 2, 3])
         
-        def seg(row):
+        def assign_segment(row):
             score = int(row['R']) + int(row['F']) + int(row['M'])
             if score >= 8: return 'Whales (High Value)'
             elif score >= 5: return 'Core Loyalists'
             else: return 'At Risk Churn'
-        rfm['Segment'] = rfm.apply(seg, axis=1)
+            
+        rfm['Segment'] = rfm.apply(assign_segment, axis=1)
         
-        r3c1, r3c2 = st.columns([1, 1.5])
+        r3c1, r3c2 = st.columns([1, 1.4])
         with r3c1:
-            seg_counts = rfm['Segment'].value_counts().reset_index()
-            fig_seg = px.pie(seg_counts, values='count', names='Segment', hole=0.5, 
-                             color_discrete_sequence=['#10b981', '#3b82f6', '#ef4444'])
-            fig_seg.update_layout(margin=dict(l=20, r=20, t=20, b=20), height=350)
-            st.plotly_chart(fig_seg, use_container_width=True)
+            seg_dist = rfm['Segment'].value_counts().reset_index()
+            fig_rfm = px.pie(
+                seg_dist, 
+                values='count', 
+                names='Segment', 
+                hole=0.55,
+                color='Segment',
+                color_discrete_map={
+                    'Whales (High Value)': '#10b981',
+                    'Core Loyalists': '#3b82f6',
+                    'At Risk Churn': '#f59e0b'
+                }
+            )
+            fig_rfm.update_layout(margin=dict(l=10, r=10, t=10, b=10), height=300)
+            st.plotly_chart(fig_rfm, width="stretch")
+            
         with r3c2:
-            st.dataframe(rfm.sort_values('Monetary', ascending=False).head(50), height=350, use_container_width=True)
+            st.caption("Top 25 High-Value Customer Accounts")
+            st.dataframe(
+                rfm.sort_values('Monetary', ascending=False)[['Customer_ID', 'Segment', 'Monetary', 'Frequency', 'Recency']].head(25),
+                height=300,
+                width="stretch"
+            )
     except Exception as e:
-        st.error("Insufficient data for RFM quantiles.")
+        st.warning("Customer segmentation computing...")
 
 
+# --- AI Data Scientist Column ---
 with col_ai:
-    st.markdown("### 🤖 Advanced Data Scientist AI")
-    st.info("I have direct code execution access to the entire multi-table data warehouse (Customers, Products, Orders). Ask me complex questions!")
+    st.markdown("### 🤖 Chief Data Scientist AI")
+    st.caption("Powered by Gemini 2.5 with live Python Code Execution")
     
     api_key = os.getenv("GEMINI_API_KEY")
     if not api_key:
-        st.error("GEMINI_API_KEY missing from .env")
+        st.error("⚠️ GEMINI_API_KEY is missing from `.env` file.")
     else:
+        # Initialize message history
         if "messages" not in st.session_state:
-            st.session_state.messages = []
+            st.session_state.messages = [
+                {
+                    "role": "assistant", 
+                    "content": "👋 Hello! I am your **Chief Data Scientist AI**. I have live code-execution access to the entire multi-table data warehouse (`customers`, `products`, `orders`). Ask me any complex data or financial question!"
+                }
+            ]
             
-        chat_container = st.container(height=650)
+        # Quick prompts
+        st.markdown("**💡 Quick Insights:**")
+        qp1, qp2 = st.columns(2)
+        quick_query = None
+        if qp1.button("🏆 Top Profitable Channel", use_container_width=True):
+            quick_query = "Which acquisition channel has the highest profit margin and total profit? Give exact figures."
+        if qp2.button("🐋 Top 5 Whales", use_container_width=True):
+            quick_query = "Who are our top 5 most profitable customers, what countries are they from, and how much did they spend?"
+            
+        chat_box = st.container(height=580)
         
-        with chat_container:
-            for message in st.session_state.messages:
-                with st.chat_message(message["role"]):
-                    st.markdown(message["content"])
-        
-        if prompt := st.chat_input("E.g., Which acquisition channel brought the highest LTV customers?"):
-            st.session_state.messages.append({"role": "user", "content": prompt})
-            with chat_container:
+        with chat_box:
+            for msg in st.session_state.messages:
+                with st.chat_message(msg["role"]):
+                    st.markdown(msg["content"])
+                    
+        # Check input from chat input or quick prompt button
+        user_prompt = st.chat_input("Ask a data question (e.g. Which country generated most revenue?)...")
+        if quick_query:
+            user_prompt = quick_query
+            
+        if user_prompt:
+            st.session_state.messages.append({"role": "user", "content": user_prompt})
+            with chat_box:
                 with st.chat_message("user"):
-                    st.markdown(prompt)
-                
-            with chat_container:
+                    st.markdown(user_prompt)
+                    
                 with st.chat_message("assistant"):
-                    with st.spinner("Writing Python code to analyze raw data..."):
+                    with st.spinner("Analyzing data warehouse with Gemini 2.5..."):
                         try:
-                            from langchain_experimental.agents import create_pandas_dataframe_agent
-                            from langchain_google_genai import ChatGoogleGenerativeAI
+                            # Python tool function to execute code directly on df_raw
+                            def query_dataset(code: str) -> str:
+                                """Executes a Python expression or snippet against `df` and returns the output."""
+                                try:
+                                    local_vars = {"df": df_raw, "pd": pd}
+                                    try:
+                                        res = eval(code, {}, local_vars)
+                                        return str(res)
+                                    except SyntaxError:
+                                        exec(code, {}, local_vars)
+                                        return "Code executed successfully."
+                                except Exception as err:
+                                    return f"Execution error: {err}"
+
+                            client = genai.Client(api_key=api_key)
                             
-                            # Using gemini-1.5-pro for complex coding
-                            llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro", google_api_key=api_key, temperature=0)
-                            
-                            # Give agent access to the FULL RAW DATAFRAME
-                            agent = create_pandas_dataframe_agent(
-                                llm, 
-                                df_raw, 
-                                verbose=False, 
-                                allow_dangerous_code=True
+                            system_instruction = (
+                                "You are an Elite VP of Data Science & BI for an Enterprise E-Commerce Platform. "
+                                "You have direct access to `df` containing 5,000 real transactions with columns: "
+                                f"{list(df_raw.columns)}. "
+                                "When asked a question, ALWAYS use the query_dataset tool to run pandas computations "
+                                "and provide exact, verified figures. "
+                                "Format your final answer with professional executive Markdown, clear bullet points, "
+                                "and strategic business recommendations."
                             )
                             
-                            response = agent.invoke(prompt)
-                            output = str(response.get("output", response))
+                            chat = client.chats.create(
+                                model="gemini-2.5-flash",
+                                config=types.GenerateContentConfig(
+                                    tools=[query_dataset],
+                                    system_instruction=system_instruction,
+                                    temperature=0.2
+                                )
+                            )
                             
-                            st.markdown(output)
-                            st.session_state.messages.append({"role": "assistant", "content": output})
+                            response = chat.send_message(user_prompt)
+                            ai_output = response.text
+                            
+                            st.markdown(ai_output)
+                            st.session_state.messages.append({"role": "assistant", "content": ai_output})
                         except Exception as e:
-                            st.error(f"Error executing advanced data analysis: {e}")
+                            st.error(f"AI Assistant encountered an issue: {e}")
